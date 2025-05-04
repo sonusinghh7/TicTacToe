@@ -116,21 +116,23 @@ document.addEventListener("DOMContentLoaded", function() {
     
     function botMove() {
         setTimeout(() => {
-            let availableCells = board.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);
-            let randomMove = availableCells[Math.floor(Math.random() * availableCells.length)];
-            board[randomMove] = 'O';
-            cells[randomMove].textContent = 'O';
-            if (checkWin()) {
-                endGame(false);
-            } else if (isDraw()) {
-                endGame(true);
-            } else {
-                currentPlayer = 'X';
-                playerTurn.textContent = `Current Turn: ${player1Name}`;
+            let availableCells = board.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);    
+            if (availableCells.length > 0) {
+                let randomMove = availableCells[Math.floor(Math.random() * availableCells.length)];                    
+                board[randomMove] = 'O';
+                cells[randomMove].textContent = 'O';           
+                cells[randomMove].removeEventListener('click', cellClick);    
+                if (checkWin()) {
+                    endGame(false);
+                } else if (isDraw()) {
+                    endGame(true);
+                } else {
+                    currentPlayer = 'X';
+                    playerTurn.textContent = `Current Turn: ${player1Name}`;
+                }
             }
         }, 500); 
     }
-
     
     restartBtn.addEventListener('click', () => {
         winnerPopup.style.display = 'none';
